@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/dog_image.dart';
 import '../providers/dog_provider.dart';
+import '../widgets/dog_image_item.dart';
 
 class DogListScreen extends ConsumerWidget {
   const DogListScreen({super.key});
@@ -23,18 +24,7 @@ class DogListScreen extends ConsumerWidget {
                   vertical: 8.0,
                   horizontal: 16.0,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Image.network(dog.url, height: 200, fit: BoxFit.cover),
-                    const SizedBox(height: 8),
-                    Text(
-                      'ID: ${dog.id}',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ),
+                child: DogImageItem(dog: dog, height: 200),
               );
             },
           );
