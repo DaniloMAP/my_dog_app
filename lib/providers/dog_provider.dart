@@ -6,8 +6,10 @@ final dogRepositoryProvider = Provider<DogRepository>((ref) {
   return DogRepository();
 });
 
-final dogImagesProvider =
-    FutureProvider.autoDispose<List<DogImage>>((ref) async { //testar ui sem 'autoDispose'
+//testar ui sem 'autoDispose'
+final dogImagesProvider = FutureProvider.autoDispose<List<DogImage>>((
+  ref,
+) async {
   final repo = ref.watch(dogRepositoryProvider);
 
   return repo.fetchDogImages();

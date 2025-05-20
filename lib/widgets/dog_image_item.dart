@@ -5,11 +5,7 @@ class DogImageItem extends StatelessWidget {
   final DogImage dog;
   final double height;
 
-  const DogImageItem({
-    super.key,
-    required this.dog,
-    this.height = 200,
-  });
+  const DogImageItem({super.key, required this.dog, this.height = 200});
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +23,11 @@ class DogImageItem extends StatelessWidget {
               child: const Center(child: CircularProgressIndicator()),
             );
           },
-          errorBuilder: (context, error, stack) => SizedBox(
-            height: height,
-            child: const Center(child: Icon(Icons.error)),
-          ),
+          errorBuilder:
+              (context, error, stack) => SizedBox(
+                height: height,
+                child: const Center(child: Icon(Icons.error)),
+              ),
         ),
         const SizedBox(height: 8),
         Text(
