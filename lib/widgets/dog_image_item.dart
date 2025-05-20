@@ -1,39 +1,64 @@
 import 'package:flutter/material.dart';
-import '../models/dog_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DogImageItem extends StatelessWidget {
+import '../models/dog_image.dart';
+import '../providers/liked_provider.dart';
+
+class DogImageItem extends ConsumerWidget {
   final DogImage dog;
   final double height;
 
-  const DogImageItem({super.key, required this.dog, this.height = 200});
+  const DogImageItem({
+    super.key,
+    required this.dog,
+    this.height = 200,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final likedIds = ref.watch(likedProvider);
+    final isLiked = likedIds.contains(dog.id);
+
+    return Stack(
       children: [
-        Image.network(
-          dog.url,
-          height: height,
-          fit: BoxFit.cover,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return SizedBox(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Image.network(
+              dog.url,
               height: height,
-              child: const Center(child: CircularProgressIndicator()),
-            );
-          },
-          errorBuilder:
-              (context, error, stack) => SizedBox(
+              fit: BoxFit.cover,
+              loadingBuilder: (c, child, prog) =>
+                  prog == null ? child : SizedBox(
+                    height: height,
+                    child: const Center(child: CircularProgressIndicator()),
+                  ),
+              errorBuilder: (c, e, s) => SizedBox(
                 height: height,
                 child: const Center(child: Icon(Icons.error)),
               ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'ID: ${dog.id}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 12, color: Colors.black54),
+            ),
+          ],
         ),
-        const SizedBox(height: 8),
-        Text(
-          'ID: ${dog.id}',
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 12, color: Colors.black54),
+
+        Positioned(
+          top: 8,
+          right: 8,
+          child: IconButton(
+            icon: Icon(
+              isLiked ? Icons.favorite : Icons.favorite_border,
+              color: Colors.red,
+            ),
+            onPressed: () {
+              ref.read(likedProvider.notifier).toggleLike(dog.id);
+            },
+          ),
         ),
       ],
     );
