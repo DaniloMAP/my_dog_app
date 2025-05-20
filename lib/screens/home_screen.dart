@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_dog_app/screens/liked_list_screen.dart';
+import 'package:my_dog_app/screens/compare_screen.dart';
 import 'dog_list_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -28,7 +28,7 @@ class HomeScreen extends ConsumerWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const LikedListScreen()),
+                  MaterialPageRoute(builder: (_) => const CompareScreen()),
                 );
               },
               child: const Text('Minhas Curtidas'),
