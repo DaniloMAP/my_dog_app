@@ -18,18 +18,18 @@ class LikedListScreen extends ConsumerWidget {
           if (images.isEmpty) {
             return const Center(child: Text('Você ainda não curtiu nenhum cachorro.'));
           }
-          return GridView.builder(
-            padding: const EdgeInsets.all(12),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.8,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-            ),
+          return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             itemCount: images.length,
             itemBuilder: (context, index) {
               final dog = images[index];
-              return DogImageItem(dog: dog);
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: DogImageItem(
+                  dog: dog,
+                  height: 180,
+                ),
+              );
             },
           );
         },
