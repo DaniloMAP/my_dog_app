@@ -81,7 +81,7 @@ class CompareScreen extends ConsumerWidget {
                                 all.firstWhere((d) => d.id == id, orElse: () => all.first);
                             return SizedBox(
                               width: MediaQuery.of(context).size.width * .4,
-                              child: DogImageItem(dog: dog, height: 150),
+                              child: DogImageItem(dog: dog),
                             );
                           }).toList(),
                         )

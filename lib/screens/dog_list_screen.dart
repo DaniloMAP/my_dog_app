@@ -24,7 +24,7 @@ class DogListScreen extends ConsumerWidget {
                   vertical: 8.0,
                   horizontal: 16.0,
                 ),
-                child: DogImageItem(dog: dog, height: 200),
+                child: DogImageItem(dog: dog),
               );
             },
           );

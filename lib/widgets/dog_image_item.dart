@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../models/dog_image.dart';
 import '../providers/liked_provider.dart';
 
 class DogImageItem extends ConsumerWidget {
   final DogImage dog;
-  final double height;
 
-  const DogImageItem({
-    super.key,
-    required this.dog,
-    this.height = 200,
-  });
+  const DogImageItem({super.key, required this.dog});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,18 +18,14 @@ class DogImageItem extends ConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.network(
-              dog.url,
-              height: height,
-              fit: BoxFit.cover,
-              loadingBuilder: (c, child, prog) =>
-                  prog == null ? child : SizedBox(
-                    height: height,
-                    child: const Center(child: CircularProgressIndicator()),
-                  ),
-              errorBuilder: (c, e, s) => SizedBox(
-                height: height,
-                child: const Center(child: Icon(Icons.error)),
+            AspectRatio(
+              aspectRatio: 1,
+              child: Image.network(
+                dog.url,
+                fit: BoxFit.cover,
+                loadingBuilder: (c, child, prog) =>
+                    prog == null ? child : const Center(child: CircularProgressIndicator()),
+                errorBuilder: (c, e, s) => const Center(child: Icon(Icons.error)),
               ),
             ),
             const SizedBox(height: 8),
@@ -46,7 +36,6 @@ class DogImageItem extends ConsumerWidget {
             ),
           ],
         ),
-
         Positioned(
           top: 8,
           right: 8,

@@ -27,7 +27,6 @@ class LikedListScreen extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: DogImageItem(
                   dog: dog,
-                  height: 180,
                 ),
               );
             },
