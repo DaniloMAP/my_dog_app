@@ -35,7 +35,7 @@ class LikedListScreen extends ConsumerWidget {
                     crossAxisCount: 2,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
-                    childAspectRatio: 0.85,
+                    childAspectRatio: 0.75,
                   ),
                   itemCount: images.length,
                   itemBuilder: (ctx, i) {
@@ -45,29 +45,38 @@ class LikedListScreen extends ConsumerWidget {
 
                     return GestureDetector(
                       onTap: disabled ? null : () => selNotifier.toggle(dog.id),
-                      child: Stack(
-                        children: [
-                          Opacity(
-                            opacity: disabled ? 0.5 : 1,
-                            child: DogImageItem(dog: dog),
-                          ),
-                          if (isSel)
-                            Positioned(
-                              top: 8,
-                              left: 8,
-                              child: CircleAvatar(
-                                radius: 12,
-                                backgroundColor: Colors.blue,
-                                child: Text(
-                                  '${selected.indexOf(dog.id) + 1}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
+                      child: Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Stack(
+                            children: [
+                              Opacity(
+                                opacity: disabled ? 0.5 : 1,
+                                child: DogImageItem(dog: dog),
+                              ),
+                              if (isSel)
+                                Positioned(
+                                  top: 8,
+                                  left: 8,
+                                  child: CircleAvatar(
+                                    radius: 12,
+                                    backgroundColor: Colors.blue,
+                                    child: Text(
+                                      '${selected.indexOf(dog.id) + 1}',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                        ],
+                            ],
+                          ),
+                        ),
                       ),
                     );
                   },
@@ -75,7 +84,7 @@ class LikedListScreen extends ConsumerWidget {
               ),
 
               const Divider(height: 1),
-
+              
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 12,
@@ -86,16 +95,16 @@ class LikedListScreen extends ConsumerWidget {
                   children: [
                     ElevatedButton(
                       onPressed:
-                          selected.length == 2
-                              ? () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const CompareScreen(),
-                                  ),
-                                );
-                              }
-                              : null,
+                      selected.length == 2
+                          ? () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const CompareScreen(),
+                                ),
+                              );
+                            }
+                          : null,
                       child: const Text('Comparar'),
                     ),
                     TextButton(

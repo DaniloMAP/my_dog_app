@@ -16,22 +16,29 @@ class DogListScreen extends ConsumerWidget {
       body: imagesAsync.when(
         data: (List<DogImage> images) {
           return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
             itemCount: images.length,
             itemBuilder: (context, index) {
               final dog = images[index];
               return Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 16.0,
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DogImageItem(dog: dog),
+                  ),
                 ),
-                child: DogImageItem(dog: dog),
               );
             },
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error:
-            (error, stack) => Center(child: Text('Erro ao carregar: $error')),
+        (error, stack) => Center(child: Text('Erro ao carregar: $error')),
       ),
     );
   }
