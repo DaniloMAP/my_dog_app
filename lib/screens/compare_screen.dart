@@ -134,8 +134,6 @@ class CompareScreen extends ConsumerWidget {
                     // botão pra limpar seleção
                     ElevatedButton(
                       onPressed: selNotifier.clear,
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey),
                       child: const Text('Limpar Seleção'),
                     ),
                   ],
