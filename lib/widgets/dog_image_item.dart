@@ -30,9 +30,11 @@ class DogImageItem extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'ID: ${dog.id}',
+              dog.breedName,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12, color: Colors.black54),
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600),
             ),
           ],
         ),
