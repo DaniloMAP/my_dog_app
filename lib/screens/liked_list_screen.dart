@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/dog_image.dart';
 import '../providers/liked_images_provider.dart';
+import '../providers/selected_provider.dart';
 import '../widgets/dog_image_item.dart';
 
 class LikedListScreen extends ConsumerWidget {
@@ -10,26 +10,132 @@ class LikedListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final likedAsync = ref.watch(likedImagesProvider);
+    final selected = ref.watch(selectedProvider);
+    final selNotifier = ref.read(selectedProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Seus Curtidos')),
       body: likedAsync.when(
-        data: (List<DogImage> images) {
+        data: (images) {
           if (images.isEmpty) {
-            return const Center(child: Text('Você ainda não curtiu nenhum cachorro.'));
+            return const Center(
+              child: Text('Você ainda não curtiu nenhum cachorro.'),
+            );
           }
-          return ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            itemCount: images.length,
-            itemBuilder: (context, index) {
-              final dog = images[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: DogImageItem(
-                  dog: dog,
+          return Column(
+            children: [
+              Expanded(
+                child: GridView.builder(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 0.85, 
+                  ),
+                  itemCount: images.length,
+                  itemBuilder: (ctx, i) {
+                    final dog = images[i];
+                    final isSel = selected.contains(dog.id);
+                    final disabled = !isSel && selected.length >= 2;
+
+                    return GestureDetector(
+                      onTap: disabled ? null : () => selNotifier.toggle(dog.id),
+                      child: Stack(
+                        children: [
+                          Opacity(
+                            opacity: disabled ? 0.5 : 1,
+                            child: DogImageItem(dog: dog),
+                          ),
+                          if (isSel)
+                            Positioned(
+                              top: 8,
+                              left: 8,
+                              child: CircleAvatar(
+                                radius: 12,
+                                backgroundColor: Colors.blue,
+                                child: Text(
+                                  '${selected.indexOf(dog.id) + 1}',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+
+              const Divider(height: 1),
+
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: selected.length == 2
+                          ? () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  title: const Text('Comparação'),
+                                  content: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: selected.map((id) {
+                                      final dog = images.firstWhere(
+                                          (d) => d.id == id,
+                                          orElse: () => images.first);
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          SizedBox(
+                                            width: 100,
+                                            height: 100,
+                                            child: Image.network(
+                                              dog.url,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            dog.breedName,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight:
+                                                    FontWeight.w500),
+                                          ),
+                                        ],
+                                      );
+                                    }).toList(),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context),
+                                      child: const Text('Fechar'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          : null,
+                      child: const Text('Comparar'),
+                    ),
+                    TextButton(
+                      onPressed: selNotifier.clear,
+                      child: const Text('Limpar Seleção'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
