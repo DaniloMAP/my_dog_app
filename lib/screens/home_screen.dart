@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_dog_app/screens/liked_list_screen.dart';
-import 'dog_list_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -15,23 +14,13 @@ class HomeScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const DogListScreen()),
-                );
-              },
+              onPressed: () => context.goNamed('dogs'),
               child: const Text('Ver Cachorros'),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const LikedListScreen()),
-                );
-              },
-              child: const Text('Minhas Curtidas'),
+              onPressed: () => context.goNamed('liked'),
+              child: const Text('Comparar Curtidos'),
             ),
           ],
         ),

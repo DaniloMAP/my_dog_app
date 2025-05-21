@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_dog_app/screens/compare_screen.dart';
+import 'package:go_router/go_router.dart';
 import '../providers/liked_images_provider.dart';
 import '../providers/selected_provider.dart';
 import '../widgets/dog_image_item.dart';
@@ -84,7 +84,7 @@ class LikedListScreen extends ConsumerWidget {
               ),
 
               const Divider(height: 1),
-              
+
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 12,
@@ -95,16 +95,9 @@ class LikedListScreen extends ConsumerWidget {
                   children: [
                     ElevatedButton(
                       onPressed:
-                      selected.length == 2
-                          ? () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const CompareScreen(),
-                                ),
-                              );
-                            }
-                          : null,
+                          selected.length == 2
+                              ? () => context.goNamed('compare')
+                              : null,
                       child: const Text('Comparar'),
                     ),
                     TextButton(
