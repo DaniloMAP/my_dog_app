@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_dog_app/screens/compare_screen.dart';
 import '../providers/liked_images_provider.dart';
 import '../providers/selected_provider.dart';
 import '../widgets/dog_image_item.dart';
@@ -26,13 +27,15 @@ class LikedListScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: GridView.builder(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 12,
+                  ),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
-                    childAspectRatio: 0.85, 
+                    childAspectRatio: 0.85,
                   ),
                   itemCount: images.length,
                   itemBuilder: (ctx, i) {
@@ -58,7 +61,9 @@ class LikedListScreen extends ConsumerWidget {
                                 child: Text(
                                   '${selected.indexOf(dog.id) + 1}',
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 12),
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ),
                             ),
@@ -72,60 +77,25 @@ class LikedListScreen extends ConsumerWidget {
               const Divider(height: 1),
 
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: selected.length == 2
-                          ? () {
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  title: const Text('Comparação'),
-                                  content: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: selected.map((id) {
-                                      final dog = images.firstWhere(
-                                          (d) => d.id == id,
-                                          orElse: () => images.first);
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          SizedBox(
-                                            width: 100,
-                                            height: 100,
-                                            child: Image.network(
-                                              dog.url,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            dog.breedName,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                fontSize: 12,
-                                                fontWeight:
-                                                    FontWeight.w500),
-                                          ),
-                                        ],
-                                      );
-                                    }).toList(),
+                      onPressed:
+                          selected.length == 2
+                              ? () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const CompareScreen(),
                                   ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context),
-                                      child: const Text('Fechar'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          : null,
+                                );
+                              }
+                              : null,
                       child: const Text('Comparar'),
                     ),
                     TextButton(
