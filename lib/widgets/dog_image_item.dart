@@ -16,6 +16,7 @@ class DogImageItem extends ConsumerWidget {
     return Stack(
       children: [
         Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AspectRatio(
@@ -29,15 +30,22 @@ class DogImageItem extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Text(
-              dog.breedName,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text(
+                dog.breedName,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+                softWrap: true,
+              ),
             ),
+            const SizedBox(height: 8),
           ],
         ),
+
         Positioned(
           top: 8,
           right: 8,
@@ -46,9 +54,7 @@ class DogImageItem extends ConsumerWidget {
               isLiked ? Icons.favorite : Icons.favorite_border,
               color: Colors.red,
             ),
-            onPressed: () {
-              ref.read(likedProvider.notifier).toggleLike(dog.id);
-            },
+            onPressed: () => ref.read(likedProvider.notifier).toggleLike(dog.id),
           ),
         ),
       ],
