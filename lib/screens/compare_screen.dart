@@ -26,8 +26,7 @@ class CompareScreen extends ConsumerWidget {
                 flex: 2,
                 child: GridView.builder(
                   padding: const EdgeInsets.all(12),
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
@@ -56,7 +55,9 @@ class CompareScreen extends ConsumerWidget {
                                 child: Text(
                                   '${selected.indexOf(dog.id) + 1}',
                                   style: const TextStyle(
-                                      color: Colors.white, fontSize: 12),
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ),
                             ),
@@ -73,19 +74,24 @@ class CompareScreen extends ConsumerWidget {
               Expanded(
                 flex: 1,
                 child: Center(
-                  child: selected.length == 2
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: selected.map((id) {
-                            final dog =
-                                all.firstWhere((d) => d.id == id, orElse: () => all.first);
-                            return SizedBox(
-                              width: MediaQuery.of(context).size.width * .4,
-                              child: DogImageItem(dog: dog),
-                            );
-                          }).toList(),
-                        )
-                      : const Text('Selecione 2 cachorros para comparar'),
+                  child:
+                      selected.length == 2
+                          ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children:
+                                selected.map((id) {
+                                  final dog = all.firstWhere(
+                                    (d) => d.id == id,
+                                    orElse: () => all.first,
+                                  );
+                                  return SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * .4,
+                                    child: DogImageItem(dog: dog),
+                                  );
+                                }).toList(),
+                          )
+                          : const Text('Selecione 2 cachorros para comparar'),
                 ),
               ),
 
@@ -96,38 +102,58 @@ class CompareScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: selected.length == 2
-                          ? () {
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  title: const Text('Comparação'),
-                                  content: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: selected.map((id) {
-                                      final dog =
-                                          all.firstWhere((d) => d.id == id);
-                                      return SizedBox(
-                                        width: 100,
-                                        height: 100,
-                                        child: Image.network(
-                                          dog.url,
-                                          fit: BoxFit.cover,
+                      onPressed:
+                          selected.length == 2
+                              ? () {
+                                showDialog(
+                                  context: context,
+                                  builder:
+                                      (_) => AlertDialog(
+                                        title: const Text('Comparação'),
+                                        content: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children:
+                                              selected.map((id) {
+                                                final dog = all.firstWhere(
+                                                  (d) => d.id == id,
+                                                );
+                                                return Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 100,
+                                                      height: 100,
+                                                      child: Image.network(
+                                                        dog.url,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    Text(
+                                                      dog.breedName,
+                                                      style: const TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              }).toList(),
                                         ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('Fechar'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          : null,
+                                        actions: [
+                                          TextButton(
+                                            onPressed:
+                                                () => Navigator.pop(context),
+                                            child: const Text('Fechar'),
+                                          ),
+                                        ],
+                                      ),
+                                );
+                              }
+                              : null,
                       child: const Text('Comparar'),
                     ),
 
@@ -142,8 +168,7 @@ class CompareScreen extends ConsumerWidget {
             ],
           );
         },
-        loading: () =>
-            const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Erro: $e')),
       ),
     );
