@@ -1,16 +1,48 @@
-# my_dog_app
+# MyDogApp
+Um App Flutter
 
-A new Flutter project.
+## Principais Tecnologias
+- Riverpod para gerenciamento de estado  
+- GoRouter com rotas nomeadas  
+- http para consumo de REST API  
+- SharedPreferences para salvar curtidas localmente  
 
-## Getting Started
+## Como Rodar o Projeto
 
-This project is a starting point for a Flutter application.
+1. Clone este repositório  
+```
+git clone https://github.com/seu-usuario/my_dog_app.git
+cd my_dog_app
+```
 
-A few resources to get you started if this is your first Flutter project:
+2. Instale as dependências  
+```
+flutter pub get
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3. Defina sua API Key (thedogapi.com)  
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Linux / macOS**  
+  ```  
+  export DOG_API_KEY="sua_chave_aqui"  
+  ```
+
+- **Windows (PowerShell)**  
+  ```  
+  set DOG_API_KEY="sua_chave_aqui"  
+  ```
+
+4. Execute o app  
+
+- **Mobile**  
+  ```  
+  flutter run  
+  ```
+
+- **Web (Chrome)**  
+  ```  
+  flutter run -d chrome  
+  ```  
+
+
+Criado por: Danilo de Melo Arraes Pessoa
