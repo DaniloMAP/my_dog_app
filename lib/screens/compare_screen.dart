@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../providers/liked_images_provider.dart';
 import '../providers/selected_provider.dart';
 
@@ -15,9 +16,8 @@ class CompareScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Comparação')),
       body: likedAsync.when(
         data: (allImages) {
-          final selectedImages = allImages
-              .where((img) => selected.contains(img.id))
-              .toList();
+          final selectedImages =
+              allImages.where((img) => selected.contains(img.id)).toList();
 
           if (selectedImages.length < 2) {
             return const Center(
@@ -32,40 +32,41 @@ class CompareScreen extends ConsumerWidget {
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: selectedImages.map((dog) {
-                      return Flexible(
-                        child: Card(
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                AspectRatio(
-                                  aspectRatio: 1,
-                                  child: Image.network(
-                                    dog.url,
-                                    fit: BoxFit.cover,
-                                  ),
+                    children:
+                        selectedImages.map((dog) {
+                          return Flexible(
+                            child: Card(
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    AspectRatio(
+                                      aspectRatio: 1,
+                                      child: Image.network(
+                                        dog.url,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      dog.breedName,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  dog.breedName,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                          );
+                        }).toList(),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -75,7 +76,7 @@ class CompareScreen extends ConsumerWidget {
                     ElevatedButton(
                       onPressed: () {
                         ref.read(selectedProvider.notifier).clear();
-                        Navigator.pop(context);
+                        context.pushNamed('liked');
                       },
                       child: const Text('OK'),
                     ),
