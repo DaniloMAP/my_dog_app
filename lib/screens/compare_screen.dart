@@ -83,6 +83,7 @@ class CompareScreen extends ConsumerWidget {
                     TextButton(
                       onPressed: () {
                         ref.read(selectedProvider.notifier).clear();
+                        context.pushNamed('liked');
                       },
                       child: const Text('Limpar Seleção'),
                     ),
